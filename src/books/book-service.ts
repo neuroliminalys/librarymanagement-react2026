@@ -55,7 +55,12 @@ export class BookService {
 
   returnBook(id: number): boolean {
     const book = this.books.find((book) => book.id === id);
-    if (book) {
+    // Checking lower and greater than totalCopies to guard potential copies overflow (if something turns wrong)
+    if (
+      book &&
+      (book.availableCopies < book.totalCopies ||
+        book.availableCopies > book.totalCopies)
+    ) {
       book.availableCopies++;
       return true;
     }

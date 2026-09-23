@@ -139,12 +139,12 @@ describe("BookService", () => {
   });
 
   // Test : Ne pas retourner un livre dont toutes les copies ont déjà été rendues
-  it("returning a book should increment availableCopies", () => {
+  it("returning a book that has all of its copies should not increment availableCopies", () => {
     const book: Book = {
       id: 10,
       title: "Test Returning Books 3",
       author: "Author",
-      availableCopies: 1,
+      availableCopies: 5,
       totalCopies: 5,
     };
 
@@ -152,8 +152,8 @@ describe("BookService", () => {
     const response = service.returnBook(10);
     const searched: Book | undefined = service.getBookById(10);
 
-    expect(response).toBe(true);
-    expect(searched?.availableCopies).toBe(book.availableCopies++);
+    expect(response).toBe(false);
+    expect(searched?.availableCopies === searched?.totalCopies).toBe(true);
   });
 
   // Ajoute des tests de ton choix pour les autres méthodes
